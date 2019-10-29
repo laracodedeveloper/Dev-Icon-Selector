@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+ <head>
+
+<!-- Meta, title, CSS, favicons, etc. -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Dev Icon Selector | Redux Framework Extension</title>
+
+<!-- Bootstrap core CSS -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Styles -->
+<link href="assets/css/style.css" rel="stylesheet">
+<link href="assets/plugins/mfp/jquery.mfp.css" rel="stylesheet">
+<link href="assets/plugins/prism/prism.css" rel="stylesheet">
+
+<!-- @font-face -->
+<!-- <link href="http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic,700italic|Raleway:700" rel="stylesheet" type="text/css">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"> -->
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+
+<div class="wrapper">
+
+	<section id="introduction" class="section">
+
+		<div class="container">
+
+			<div class="row">
+
+				<div class="col-md-8 col-md-push-2">
+
+					<h1 class="section-title text-center">
+						Introduction
+					</h1>
+
+					<p>
+						<strong>Dev Icon Selector</strong> is redux framework extension wich you allow to select easy icon and to use it from redux option panel, this extension is dedicated for redux framework developer
+					</p>
+
+					<div class="spacer-60"></div>
+
+					<h4>Browser Compatibility</h4>
+					<p>This extension is 100% guaranteed to work on IE9+, Mozilla Firefox, Google Chrome, Safari, latest Android and iOS mobile browsers.</p>
+
+					<div class="spacer-60"></div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</section>
+
+
+	<section id="files" class="section">
+
+		<div class="container">
+
+			<div class="row">
+
+				<div class="col-md-8 col-md-push-2">
+
+					<h1 class="section-title text-center">
+						Download, Installation and Files
+					</h1>
+
+					<p>Before going into details, this section will first cover the details of downloading, installing and folder/file structure of this extension.</p>
+
+					<div class="spacer-60"></div>
+
+					<h4>Download</h4>
+
+					<p>After purchase, you should be able to download it by going into the download section of your Codecanyon account. If you can't find your download link, look at <a href="#">this image instruction</a>.</p>
+
+					<div class="spacer-60"></div>
+
+
+					<h4>Files and Folders</h4>
+					<p>The files and folder structure of this extension is pretty straightforward, the screenshot taken on Mac OS below shows the important folders.</p>
+
+					<figure class="figure-box">
+						<div class="thumbnail">
+							<a class="mfp-zoom" href="content/folder-1.jpg">
+								<img src="content/folder-1.jpg" alt="" class="img-responsive"><i class="fa fa-search"></i>
+							</a>
+							<div class="caption">
+								<strong>Main folder</strong><br>
+								The main folder structure is separated into three folders, dev_iconselect, dev_iconselect.zip and documentation.
+							</div>
+						</div>
+					</figure>
+
+					<figure class="figure-box">
+						<div class="thumbnail">
+							<a class="mfp-zoom" href="content/folder-2.jpg">
+								<img src="content/folder-2.jpg" alt="" class="img-responsive"><i class="fa fa-search"></i>
+							</a>
+							<div class="caption">
+								<strong>Inside Folder</strong><br>
+							</div>
+						</div>
+					</figure>
+				</div>
+
+			</div>
+
+		</div>
+
+	</section>
+
+	<section id="template-structure" class="section">
+
+		<div class="container">
+
+			<div class="row">
+
+				<div class="col-md-8 col-md-push-2">
+
+					<h1 class="section-title text-center">
+						How to enable Dev Icon Selector Extension For Redux Framework in Theme?
+					</h1>
+
+					<p>First of all thanks for the purchase!!!, Here are the instruction to enable the Dev icon selector Extension For Redux Framework in theme</p>
+
+					<div class="spacer-60"></div>
+
+					<h4>Step by step</h4>
+
+					<p>
+						<ol>
+							<li>
+								Purchase and Download the plugin from here  Dev Icon Selector Extension For Redux Framework.
+							</li>
+							<li>Extract the downloaded files.</li>
+							<li>Copy the plugin folder.</li>
+							<li>Paste into the <your-theme-path>/admin/redux-extensions/</li>
+							<li>Now add the following code to functions.php file in your theme <br>
+							  <pre class="language-php">
+							  	<code>
+$redux_opt_name = '';
+ 
+if(!function_exists('redux_register_custom_extension_loader')):
+   function redux_register_custom_extension_loader($ReduxFramework) {
+     echo $path = dirname( __FILE__ ) . '/admin/redux-extensions/';
+     $folders = scandir( $path, 1 );
+     foreach ( $folders as $folder ) {
+       if ( $folder === '.' or $folder === '..' or ! is_dir( $path . $folder ) ) {
+          continue;
+       }
+       $extension_class = 'ReduxFramework_Extension_' . $folder;
+       if ( ! class_exists( $extension_class ) ) {
+          // In case you wanted override your override, hah.
+         $class_file = $path . $folder . '/extension_' . $folder . '.php';
+         $class_file = apply_filters( 'redux/extension/' . $ReduxFramework-&amp;amp;amp;gt;args['opt_name'] . '/' . $folder, $class_file );
+         if ( $class_file ) {
+            require_once( $class_file );
+         }
+       }
+      if ( ! isset( $ReduxFramework-&amp;amp;amp;gt;extensions[ $folder ] ) ) {
+        $ReduxFramework-&amp;amp;amp;gt;extensions[ $folder ] = new $extension_class( $ReduxFramework );
+      }
+   }
+}
+// Modify {$redux_opt_name} to match your opt_name
+add_action("redux/extensions/{$redux_opt_name}/before", 'redux_register_custom_extension_loader', 0);
+endif;
+							  	</code>
+							  </pre>
+							</li>
+
+							<li>Now extension is active, and to group the options you have to add the following code to your options file <br>
+								<pre class="language-php">
+									<code>
+array(
+'id' => 'custom-id',
+'type' => 'dev_iconselect', // field type
+'title' => '<any title you want>', // here you can set the title
+'output' => true, // Optional if you want to enqueue your [icon_link_url] to front end
+'options' => array(
+   'suffix' => 'fa', // Example Font Awesome fa fa-facebook
+   'prefix' => 'fa-', // Example Font Awesome fa-facebook
+   'color' => '#636363', // Default Color of icons
+   'hover' => '#FFF', // Default icon hover color
+   'background' => 'transparent', // Default Background Color of Icon
+   'background-hover' => 'transparent', // Default Background Hover of icon
+   'url' => '#', // Default link url
+   'icon_link' => '<directory-path-to-css-file>', // Example get_template_directory().'/assets/font-awesome/font-awesome-social.css' or don't use this options will give default social icons
+   'icon_link_url' => '<link-path-to-css-file>'  // Example get_template_directory_uri().'/assets/font-awesome/font-awesome-social.css' or don't use this options will give default social icons
+ ),
+ 'default' => array(
+       'fa-twitter' => array(
+               'font-id'           => 4, // this is order id of icon important to be same order id
+               'font-class'        => 'dev-social-icon',
+               'font-suffix'       => 'fa',
+               'font-icon'         => 'fa-twitter',
+               'font-title'        => 'Twitter',
+               'font-url'          => '#',
+               'font-color'        => '#636363',
+               'font-hover'        => '#FFF',
+               'font-background'   => 'transparent',
+               'font-background-hover' => 'transparent',
+               'font-enable'       => 'true'
+       ),
+      'fa-linkedin' => array(
+               'font-id'           => 12,
+               'font-class'        => 'dev-social-icon',
+               'font-suffix'       => 'fa',
+               'font-icon'         => 'fa-linkedin',
+               'font-title'        => 'Linkedin',
+               'font-url'          => '#',
+               'font-color'        => '#636363',
+               'font-hover'        => '#FFF',
+               'font-background'   => 'transparent',
+               'font-background-hover'   => 'transparent',
+               'font-enable'       => 'true'
+        ),
+        'fa-facebook' => array(
+               'font-id'           => 5,
+               'font-class'        => 'dev-social-icon',
+               'font-suffix'       => 'fa',
+               'font-icon'         => 'fa-facebook',
+               'font-title'        => 'Facebook',
+               'font-url'          => '#',
+               'font-color'        => '#636363',
+               'font-hover'        => '#FFF',
+               'font-background'   => 'transparent',
+               'font-background-hover'   => 'transparent',
+               'font-enable'       => 'true'
+       ),
+       'fa-skype' => array(
+               'font-id'           => 38,
+               'font-class'        => 'dev-social-icon',
+               'font-suffix'       => 'fa',
+               'font-icon'         => 'fa-skype',
+               'font-title'        => 'Skype',
+               'font-url'          => '#',
+               'font-color'        => '#636363',
+               'font-hover'        => '#FFF',
+               'font-background'   => 'transparent',
+               'font-background-hover'   => 'transparent',
+               'font-enable'       => 'true'
+        ),
+        'fa-pinterest' => array(
+               'font-id'           => 8,
+               'font-class'        => 'dev-social-icon',
+               'font-suffix'       => 'fa',
+               'font-icon'         => 'fa-pinterest',
+               'font-title'        => 'Pinterest',
+               'font-url'          => '#',
+               'font-color'        => '#636363',
+               'font-hover'        => '#FFF',
+               'font-background'   => 'transparent',
+               'font-background-hover'   => 'transparent',
+               'font-enable'       => 'true'
+      ),
+ ) 
+ 
+),
+									</code>
+								</pre>
+							</li>
+						</ol>
+					</p>
+
+					<div class="spacer-60"></div>
+
+					<h1 class="section-title text-center">
+						Arguments
+					</h1>
+
+					<p>
+						By default, if you do not specify any of the special argument dev_iconselect will auto-parse the fontawesome-socialicons font already embedded within extension. It will also enqueue this font in the front-end so you can begin working with icons instantly. Alternatively, you can provide any of the arguments below for a more customized experience.
+					</p>
+
+					<div class="spacer-60"></div>
+
+					<table>
+<tbody>
+<tr>
+<td><strong>Name</strong></td>
+<td><strong>Type</strong></td>
+<td><strong>Default</strong></td>
+<td><strong>Description</strong></td>
+</tr>
+<tr>
+<td>default</td>
+<td>array</td>
+<td></td>
+<td>Specify&nbsp;a list of fonts wich you want to use like example above</td>
+</tr>
+<tr>
+<td>options</td>
+<td>array</td>
+<td></td>
+<td>Prefer to just do everything by hand?</td>
+</tr>
+<tr>
+<td>suffix</td>
+<td>string</td>
+<td></td>
+<td>Some font frameworks append a class prefix to denote their class. This is used here. An example of this would be fa, a class used by font-awesome to tell you this is a font-awesome font.</td>
+</tr>
+<tr>
+<td>prefix</td>
+<td>string</td>
+<td></td>
+<td>Dev Icon Select parses the classes from a CSS file by denoting a selector. Let’s take a look at a typical font class name for fontawesome&nbsp;fonts: fa-facebook. The selector would be fa- , and we would need to pass this into the selector argument to parse the class file appropriately.</td>
+</tr>
+<tr>
+<td>color</td>
+<td>string</td>
+<td>#636363</td>
+<td>Change the color&nbsp;of the displaying the icons.</td>
+</tr>
+<tr>
+<td>hover</td>
+<td>string</td>
+<td>#FFF</td>
+<td>Change the color when is hover</td>
+</tr>
+<tr>
+<td>background</td>
+<td>string</td>
+<td>transparent</td>
+<td>Change the background color</td>
+</tr>
+<tr>
+<td>background-hover</td>
+<td>string</td>
+<td>transparent</td>
+<td>Change the background color when is hover icon</td>
+</tr>
+<tr>
+<td>icon_link</td>
+<td>path</td>
+<td></td>
+<td>Directory path of icon css file, Need to be parsed all icons</td>
+</tr>
+<tr>
+<td>icon_link_url</td>
+<td>url</td>
+<td></td>
+<td>Url link for to enqueue the css file for back &amp; front end</td>
+</tr>
+<tr>
+<td>required</td>
+<td>array</td>
+<td></td>
+<td>Provide the parent, comparison operator, and value which affects the field’s visibility. <a class="more_info" href="https://docs.reduxframework.com/redux-framework/the-basics/the-required-argument/"><i class="el-icon-circle-arrow-right"></i> More info</a></td>
+</tr>
+<tr>
+<td>hint</td>
+<td>array</td>
+<td></td>
+<td>Array containing the <code>content</code> and optional <code>title</code>arguments for the hint tooltip. <a class="more_info" title="Using Hints in Fields" href="https://docs.reduxframework.com/redux-framework/the-basics/using-hints-in-fields/"><i class="el-icon-circle-arrow-right"></i>More info</a></td>
+</tr>
+</tbody>
+</table>
+<div class="spacer-60"></div>
+
+<h1 class="section-title text-center">
+						Example Usage
+					</h1>
+
+					<p>
+						This example in based on the example usage provided above. Be sure to change <code>$redux_demo</code> to the value you specified in your <code>opt_name</code> argument
+					</p>
+
+				
+
+<pre class="language-php">
+<code>
+global $redux_demo;
+ 
+if(!empty($redux_demo['custom-id']) && is_array($redux_demo['custom-id'])){
+   foreach($redux_demo['custom-id'] as $key => $icon){
+      echo $icon["font-id"]; // Id of icon
+ 
+      echo $icon["font-class"]; // custom class of icon
+ 
+      echo $icon["font-suffix"]; // example fa fa-facebook
+ 
+      echo $icon["font-icon"]; // class name of icon example fa-facebook
+ 
+      echo $icon["font-title"]; // Title of icon which will generated from class name of icon example fa-facebook => fa will removed Facebook
+ 
+      echo $icon["font-url"]; // This is link of icon when clicked
+ 
+      echo $icon["font-color"]; // This is selected icon color
+ 
+      echo $icon["font-hover"]; // This is selected icon color when hover
+ 
+      echo $icon["font-background"]; // This is Background color of icon
+ 
+      echo $icon["font-background-hover"]; // This is Background color when is hover icon
+   }
+}
+</code>	
+</pre>
+
+
+	</section>
+
+
+</div>
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="assets/plugins/mfp/jquery.mfp-0.9.9.min.js"></script>
+<script src="assets/plugins/prism/prism.js"></script>
+<script src="assets/js/simpledoc.js"></script>
+
+</body>
+
+</html>
